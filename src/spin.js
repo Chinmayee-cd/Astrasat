@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import data from "./cansat.csv";
 import "./App.css";
-import { FullScreenAltitude, SummaryAltitude } from "./FSAlt";
+import { FullScreenSpin, SummarySpin } from "./FSSpin";
 
-const LineChart = (props) => {
+const SpinChart = (props) => {
   const [fullScreenModalState, setFullScreenModalState] = useState(false);
 
   const chartRef = useRef(null);
@@ -13,11 +13,9 @@ const LineChart = (props) => {
   useEffect(() => {
     d3.csv(data, (d) => ({
       time: parseInt(d.time_stamping),
-      altitude: parseFloat(d.altitude),
+      spin: parseFloat(d.gyro_spin_rate),
     })).then((dataset) => {
       const slicedData = dataset.slice(-15);
-      console.log("status ", refreshMe);
-
       if (!refreshMe) {
         return;
       }
@@ -26,7 +24,6 @@ const LineChart = (props) => {
       const height = 150;
 
       d3.select(chartRef.current).select("svg").remove();
-
       const svg = d3
         .select(chartRef.current)
         .append("svg")
@@ -42,13 +39,13 @@ const LineChart = (props) => {
 
       const yScale = d3
         .scaleLinear()
-        .domain([0, d3.max(slicedData, (d) => d.altitude)])
+        .domain([0, d3.max(slicedData, (d) => d.spin)])
         .range([height, 0]);
 
       const line = d3
         .line()
         .x((d) => xScale(d.time))
-        .y((d) => yScale(d.altitude));
+        .y((d) => yScale(d.spin));
 
       svg
         .append("path")
@@ -72,7 +69,7 @@ const LineChart = (props) => {
         .attr("transform", "rotate(90)")
         .style("text-anchor", "middle")
         .style("fill", "black")
-        .text("Altitude");
+        .text("Spin Rate");
 
       svg
         .append("g")
@@ -86,7 +83,7 @@ const LineChart = (props) => {
   return (
     <>
       <button
-        id="myBtnAlt"
+        id="myBtnSpin"
         className="modal-button"
         onClick={launchSummaryMode}
       >
@@ -101,7 +98,7 @@ const LineChart = (props) => {
         ></i>
       </button>
       <button
-        id="myBtnAlt"
+        id="myBtnS"
         className="modal-button"
         onClick={launchFullScreenMode}
       >
@@ -120,26 +117,26 @@ const LineChart = (props) => {
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
       ></link>
       <div ref={chartRef}></div>
-      <FullScreenAltitude toggle={fullScreenModalState} slice={false} />
-      <SummaryAltitude toggle={fullScreenModalState} slice={false} />
+      <FullScreenSpin toggle={fullScreenModalState} slice={false} />
+      <SummarySpin toggle={fullScreenModalState} slice={false} />
     </>
   );
   function launchFullScreenMode() {
-    const modal = document.getElementById("myModalA");
+    const modal = document.getElementById("myModalS");
     modal.style.display = "block";
     modal.style.zIndex = 9999;
-    const modalback = document.getElementById("modalA");
+    const modalback = document.getElementById("modalS");
     modalback.style.display = "block";
     modal.style.zIndex = 1;
   }
   function launchSummaryMode() {
-    const modal = document.getElementById("myModalAltitude");
+    const modal = document.getElementById("myModalSpin");
     modal.style.display = "block";
     modal.style.zIndex = 9999;
-    const modalback = document.getElementById("modalAltitude");
+    const modalback = document.getElementById("modalSpin");
     modalback.style.display = "block";
     modal.style.zIndex = 1;
   }
 };
 
-export default LineChart;
+export default SpinChart;

@@ -1,0 +1,44 @@
+/*.toggle-btn{
+    height:100px;
+    width:100px;
+    background-color: #5072A7;
+    color:white;
+    className={`toggle-btn ${toggle ? "toggled" : ""}`}
+  }*/
+  /*.toggle-btn .toggled{
+    height:100px;
+    width:200px;
+    background-color: red;
+    color:white;
+  }*/
+  .label{
+    display:flex;
+    height:10px;
+    left:30px;
+    width:1000px;
+    top:0px;
+    margin-right:0px;
+  }
+  .Togglebtn{
+    width:200px;
+    height:40px;
+    margin-top:15px;
+    margin-left:660px;
+    margin-bottom:10px;
+    border-radius:0px;
+    border:2px solid black;
+    background-color:silver;
+    padding-bottom: 10px;
+
+  }
+  /*<button onClick={() => setToggle(!toggle)} className="Togglebtn">
+          <h2>{toggle ? "Start" : "Stop"}</h2>
+        </button>
+        
+      <button
+        id="myBtn"
+        className="modal-button"
+        onClick={(state) => setFullScreenModalState(!state)}
+      >
+        <i class="fa fa-play"></i>
+      </button>*/
